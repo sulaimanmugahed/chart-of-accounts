@@ -12,7 +12,9 @@ import { mockApiPlugin } from './mock/vite-plugin.ts'
  */
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const apiMode: 'mock' | 'real' = env.VITE_API_MODE?.toLowerCase() === 'real' ? 'real' : 'mock'
+ // const apiMode: 'mock' | 'real' = env.VITE_API_MODE?.toLowerCase() === 'real' ? 'real' : 'mock'
+  const apiMode: 'mock' | 'real' = true ? 'real':'mock';
+  
   const apiTarget = env.VITE_API_TARGET || 'http://localhost:5126'
   const hmrClientPort = env.VITE_HMR_CLIENT_PORT ? Number(env.VITE_HMR_CLIENT_PORT) : undefined
 
