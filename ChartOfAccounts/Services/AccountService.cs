@@ -189,6 +189,19 @@ public class AccountService
             parentLineage: parentLineage);
 
         await _context.Accounts.AddAsync(account, cancellationToken);
+
+        if (request.SystemRole.HasValue)
+        {
+            var systemAccountMapping = new CompanySystemAccount(
+            companyId: company.Id,
+            role: request.SystemRole.Value,
+            accountId: account.Id,
+            isLocked: false,
+            notes: $"تم الربط وقت انشاء الحساب '{request.NameArabic}'");
+
+            await _context.CompanySystemAccounts.AddAsync(systemAccountMapping, cancellationToken);
+        }
+
         await _context.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation("تم إنشاء الحساب {Code} - {Name} بنجاح للشركة {CompanyId} في المستوى {Level}.",
